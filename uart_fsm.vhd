@@ -9,15 +9,15 @@ use IEEE.std_logic_arith.all;
 -------------------------------------------------
 entity UART_FSM is
 port(
-   CLK      :  in std_logic;                    -- clock signal
-   RST      :  in std_logic;                    -- reset signal
-   DIN      :  in std_logic;                    -- data input
-   CNT      :  in std_logic_vector(4 downto 0); -- CLK counter
-   CNT2     :  in std_logic_vector(3 downto 0); -- CLK % 16 counter
-   DOUT_VLD :  out std_logic;                   -- validity signal
-   RX_EN    :  out std_logic;                   -- enabling signal for CNT2 and DMX
-   CNT_EN   :  out std_logic                    -- enabling signal for CNT
-   );
+  CLK      :  in std_logic;                    -- hodinový signál
+  RST      :  in std_logic;                    -- reset signál
+  DIN      :  in std_logic;                    -- dátový vstup
+  CNT      :  in std_logic_vector(4 downto 0); -- hodinové počítadlo
+  CNT2     :  in std_logic_vector(3 downto 0); -- počítadlo CLK % 16
+  DOUT_VLD :  out std_logic;                   -- validačný signál (ukončenie prenosu)
+  RX_EN    :  out std_logic;                   -- povolovací signál pre CNT2 a DMX
+  CNT_EN   :  out std_logic                    -- povolovací signál pre CNT
+  );
 end entity UART_FSM;
 
 -------------------------------------------------
@@ -63,7 +63,7 @@ begin
                when VALIDATE =>
                   STATE_T <= IDLE;
             -- -----------------------
-               -- undefined state (should not happen)
+               -- neurčitý stav (nemalo by sa stať)
                when others => 
                   STATE_T <= IDLE;
             -- -----------------------
