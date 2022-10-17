@@ -9,21 +9,21 @@ use IEEE.std_logic_arith.all;
 -------------------------------------------------
 entity UART_RX is
 port(
-   CLK      :   in std_logic;                       -- clock signal
-   RST      :   in std_logic;                       -- reset signal
-   DIN      :   in std_logic;                       -- data input
-   DOUT     :   out std_logic_vector(7 downto 0);   -- data output
-   DOUT_VLD :   out std_logic                       -- validation signal
+   CLK      :   in std_logic;                       -- hodinový signál
+   RST      :   in std_logic;                       -- reset signál
+   DIN      :   in std_logic;                       -- dátový vstup
+   DOUT     :   out std_logic_vector(7 downto 0);   -- dátový výstup
+   DOUT_VLD :   out std_logic                       -- validačný signál
 );
 end UART_RX;  
 
 -------------------------------------------------
 architecture behavioral of UART_RX is
-   signal  cnt     :   std_logic_vector(4 downto 0);   -- CLK counter
-   signal  cnt2    :   std_logic_vector(3 downto 0);   -- CLK % 16 counter
-   signal  vld     :   std_logic;                      -- validation signal
-   signal  rx_en   :   std_logic;                      -- enabling signal for CNT2 and DMX
-   signal  cnt_en  :   std_logic;                      -- enabling signal for CNT
+   signal  cnt     :   std_logic_vector(4 downto 0);   -- hodinové počítadlo
+   signal  cnt2    :   std_logic_vector(3 downto 0);   -- počítadlo CLK % 16
+   signal  vld     :   std_logic;                      -- validačný signál
+   signal  rx_en   :   std_logic;                      -- povolovací signál pre CNT2 a DMX
+   signal  cnt_en  :   std_logic;                      -- povolovací signál pre CNT
 begin
    FSM: entity work.UART_FSM(behavioral)
    port map(
@@ -39,7 +39,7 @@ begin
 
    DOUT_VLD <= vld;
 
-   -- CNT - sync. counter with initial state selection (LOAD) and enabling signal (CE)
+   -- CNT - sync. čítač CLK s predvoľbou poč. stavu (LOAD) a s povolovačom činnosti (CE)
    p_cnt: process(CLK, RST, cnt_en, rx_en) begin
       if (RST = '1' or cnt_en = '0') then
          cnt <= "00000";
@@ -52,7 +52,7 @@ begin
       end if;
    end process p_cnt;
 
-   -- CNT2 - sync. counter of transferred bits with enabling signal (CE)
+   -- CNT2 - sync. čítač prenesených bitov s povolovačom činnosti (CE)
    p_cnt2: process(CLK, RST, rx_en) begin
       if (RST = '1' or rx_en = '0') then
          cnt2 <= "0000";
@@ -63,7 +63,7 @@ begin
       end if;
    end process p_cnt2;
 
-   -- demultiplexer & registers
+   -- demultiplexor & registre
    p_dmx_reg: process(CLK, RST, cnt2, rx_en, DIN) begin
       if (RST = '1') then
          DOUT <= "00000000";
