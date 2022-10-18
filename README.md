@@ -6,6 +6,5 @@
 <br>
 
 Hodnotenie: 14 / 15<br>
-(nie je to najoptimálnejší dizajn, ale *it just works*)
 
 Zadanie: [WIKI](https://wis.fit.vutbr.cz/FIT/st/cwk.php.cs?title=Projekt&csid=773564&id=14668) / [PDF](https://wis.fit.vutbr.cz/FIT/st/cfs.php/course/INC-IT/projects/zadani.pdf)
